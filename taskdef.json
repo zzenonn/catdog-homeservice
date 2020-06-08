@@ -1,0 +1,22 @@
+{
+    "containerDefinitions": [
+        {
+            "name": "home",
+            "image": "<IMAGE1_NAME>",
+            "essential": true,
+            "portMappings": [
+                {
+                    "hostPort": 80,
+                    "protocol": "tcp",
+                    "containerPort": 80
+                }
+            ]
+        }
+    ],
+    "requiresCompatibilities": [
+        "EC2"
+    ],
+    "cpu": "128",
+    "memory": "256",
+    
+

@@ -1,0 +1,29 @@
+version: 0.2
+ 
+phases:
+ pre_build:
+   commands:
+     - echo "Logging in to Amazon ECR..."
+     - $(aws ecr get-login --no-include-email --region $AWS_REGION)
+     - printf '"family":"%s"}' $PROJECTNAME-$ENVIRONMENT-$SERVICE >> taskdef.json
+     - REPOSITORY_URI=$(aws ecr describe-repositories --repository-names $PROJECTNAME/$SERVICE --query repositories[0].repositoryUri --output text)
+     - IMAGE_TAG=$COMMIT_ID
+     - echo "TAG is $COMMIT_ID"
+ build:
+   commands:
+     - echo "Build started on $(date)"
+     - echo "Building the Docker image..."
+     - docker build -t $SERVICE:latest .
+     - docker tag $SERVICE:latest $REPOSITORY_URI:latest
+     - docker tag $SERVICE:latest $REPOSITORY_URI:$IMAGE_TAG
+     - printf '{"ImageURI":"%s"}' $REPOSITORY_URI:$IMAGE_TAG > imageDetail.json
+ post_build:
+   commands:
+     - echo "Build completed on $(date)"
+     - echo "Pushing the Docker image..."
+     - docker push $REPOSITORY_URI:$IMAGE_TAG || echo "Error pushing your image. Is the tag in use? Attempting to use the existing tag."
+artifacts:
+ files:
+   - imageDetail.json
+   - appspec.yaml
+   - taskdef.json
