@@ -6,7 +6,6 @@
             "essential": true,
             "portMappings": [
                 {
-                    "hostPort": 80,
                     "protocol": "tcp",
                     "containerPort": 80
                 }
@@ -17,6 +16,6 @@
         "EC2"
     ],
     "cpu": "128",
-    "memory": "256",
+    "memory": "128",
     
 
