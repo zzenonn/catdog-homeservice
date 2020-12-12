@@ -13,9 +13,10 @@
         }
     ],
     "requiresCompatibilities": [
-        "EC2"
+        "FARGATE"
     ],
     "cpu": "128",
-    "memory": "128",
+    "memory": "512",
+    "networkMode": "awsvpc",
     
 
