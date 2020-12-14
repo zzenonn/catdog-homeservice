@@ -5,9 +5,9 @@ phases:
    commands:
      - echo "Logging in to Amazon ECR..."
      - $(aws ecr get-login --no-include-email --region $AWS_REGION)
-     - printf '"networkConfiguration":{"awsvpcConfiguration":{"securityGroups":["%s"],"subnets":["%s"]}}' "$($SECURITY_GROUPS)" "$($SUBNETS)" >> taskdef.json
-     - printf '"taskRoleArn":"%s"' $TASK_ROLE >> taskdef.json
-     - printf '"executionRoleArn":"%s"' $EXECUTION_ROLE >> taskdef.json
+     - printf '"networkConfiguration":{"awsvpcConfiguration":{"securityGroups":["%s"],"subnets":["%s"]}},\n' $SECURITY_GROUPS $SUBNETS >> taskdef.json
+     - printf '"taskRoleArn":"%s",\n' $TASK_ROLE >> taskdef.json
+     - printf '"executionRoleArn":"%s",\n' $EXECUTION_ROLE >> taskdef.json
      - printf '"family":"%s"}' $PROJECTNAME-$ENVIRONMENT-$SERVICE >> taskdef.json
      - REPOSITORY_URI=$(aws ecr describe-repositories --repository-names $PROJECTNAME/$SERVICE --query repositories[0].repositoryUri --output text)
      - IMAGE_TAG=$COMMIT_ID
