@@ -1,4 +1,4 @@
-FROM nginx:alpine
+FROM public.ecr.aws/nginx/nginx:stable-alpine
 ARG AWS_DEFAULT_REGION
 ARG AWS_CONTAINER_CREDENTIALS_RELATIVE_URI
 RUN mkdir -p /aws && \
