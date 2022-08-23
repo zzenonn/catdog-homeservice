@@ -13,7 +13,7 @@ phases:
    commands:
      - echo "Build started on $(date)"
      - echo "Building the Docker image..."
-     - docker buildx -t $SERVICE:latest --platform linux/amd64,linux/arm64 .
+     - docker build -t $SERVICE:latest .
      - docker tag $SERVICE:latest $REPOSITORY_URI:latest
      - docker tag $SERVICE:latest $REPOSITORY_URI:$IMAGE_TAG
      - printf '{"ImageURI":"%s"}' $REPOSITORY_URI:$IMAGE_TAG > imageDetail.json
